@@ -1,22 +1,38 @@
-# Roco Energy Assistant 0.10
+# Roco Energy Assistant 0.20
 
-For duo battles in Roco Kingdom. The assistant detects the energy icon and sends X or a mouse click. If your teammate leaves, duo mode can flee the battle and stop monitoring. Start monitoring manually when the next duo battle begins.
+A Windows desktop battle assistant for solo and duo battles in Roco Kingdom.
 
-1. Extract the complete ZIP to a regular folder. Run `游戏助手.exe` and accept the Windows administrator prompt. Do not move the EXE out of its folder. The .NET runtime is included; Python and OCR are not needed.
-2. Interception is required. If it is not installed, run `安装驱动.cmd`, accept the administrator prompt, and restart Windows after a successful installation. Do not install it again if it is already installed and working. The script does not restart Windows automatically. Driver compatibility varies by system and device.
-3. Select **English** in the top-right menu. Your language selection is saved. You can change languages while monitoring without resetting your settings.
-4. Choose the game window. Under **Input devices**, check that the driver is ready. Leave both devices on **Automatic (recommended)** initially.
-5. Enter a duo battle and use **Detect once** to test recognition. This check sends no input. Select **X key** or **Mouse click**, then click **Start monitoring**.
-6. Keep the game in the foreground. Move the floating window away from the ally panels, energy button and flee confirmation dialog. Click **Pause monitoring** to stop.
+## Setup
 
-If recognition fails, use **Select energy icon** and select only the icon, excluding the numbers and X. Press Esc to cancel selection. If the game ignores input, pause and try another input device or method.
+Download `RocoEnergyAssistant-0.20.0-win-x64.zip` from Releases and extract the entire folder. Run `游戏助手.exe`. Windows 10 / 11 x64 is supported; the .NET runtime is included. No Python or OCR installation is needed.
 
-If you start monitoring after your teammate has already left, duo mode can also flee when only your own ally panel remains in the second position. Monitoring stops after leaving; start it manually for the next duo battle.
+On first use, run `安装驱动.cmd`, then restart Windows. A working Interception installation does not need reinstalling. Choose English beside Start monitoring, select your game window and battle plan, then start monitoring. Settings collapse automatically. Keep the game in the foreground. Pause monitoring to stop.
 
-The English option translates this assistant's interface. The bundled image templates currently target the Chinese game UI, including its flee confirmation. It does not add recognition for an English game client.
+## Battle plans
 
-The release supports signed updates when its GitHub update source is configured. Configured releases require an online update check before monitoring; required updates must be installed to continue. Settings and custom templates are preserved. The local pre-release review build hides the update section until the publisher configures it.
+Solo and duo battles share the Battle page and all plans:
 
-Screenshots are processed locally. The assistant does not upload screenshots or collect game passwords; update checks connect to GitHub. This is an unofficial tool, not affiliated with the game. Check the game's rules before use; no compatibility or account-safety guarantee is made. Observe initial tests yourself.
+- 1–4: repeat the selected skill.
+- 5: energy only.
+- 6: skill with energy fallback; choose the skill in the extra dropdown.
+- 7: custom sequence, including order, repeats, waits and enemy-HP conditions. Sequences reset each battle and loop while the battle continues.
 
-Interception and other dependencies retain their own licenses; see `开源说明.md`, `许可证` and `第三方源码`. Commercial use of Interception requires checking the author's commercial licensing terms. Paid activation and device binding are not included.
+The energy-fallback checkbox applies to every skill plan. Gathering energy does not skip the pending skill. Action intervals sample a fresh value between your minimum and maximum; equal values give a fixed interval.
+
+Enable teammate-departure protection for duo battles. After confirmed departure the assistant flees, confirms and stops monitoring. Start monitoring manually for the next battle.
+
+## Battle catching
+
+Enable catching, set the HP threshold (10% by default), and choose a ball slot from 1–6. Catching takes priority: open the ball menu, select the ball, wait for confirmation, then confirm. Failed catches retry after battle controls or the ball menu returns.
+
+The Field catch tab is temporarily hidden in 0.20 while bugs are fixed. Saved field mode returns to Battle; samples and parameters are preserved.
+
+## Input and statistics
+
+Choose Hotkeys or Mouse in monitoring settings. Hotkeys uses skills 1–4, energy X, catch W, ball slots 1–6 and Space confirmation. Mouse clicks the corresponding controls.
+
+Sessions lasting at least one minute with at least one observed battle generate a summary on stopping: battles, elapsed time, confirmed catches, energy, skill and throw counts. Battle throws require consecutive detections of the Chinese throw banner. A stable return to the field then counts as success; returning to battle or the ball menu does not. Animation, black frames or missing HUD alone never confirm a catch. Missed evidence remains unconfirmed.
+
+The app checks GitHub for updates and preserves your config folder. If updating manually, copy your old config folder into the extracted new package. Keep all runtime files, third-party libraries and licenses.
+
+English changes the assistant UI only. Recognition templates target the Chinese game UI. Screenshots are processed locally. Live game responses and capture flows require supervised playtesting. See 开源说明.md and the included licenses and third-party sources.
